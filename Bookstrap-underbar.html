@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<!-- saved from url=(0059)http://remote-bookstrap.hackreactor.com/curriculum/underbar -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide{display:none !important;}ng\:form{display:block;}.ng-animate-block-transitions{transition:0s all!important;-webkit-transition:0s all!important;}.ng-hide-add-active,.ng-hide-remove{display:block!important;}</style>
+    <meta charset="utf8">
+    <title>Bookstrap</title>
+    <meta type="description" content="Hack Reactor&#39;s student management software.">
+    <link rel="icon" href="http://remote-bookstrap.hackreactor.com/favicon.ico" type="image/x-icon">
+
+    <!-- Viewport mobile tag for sensible mobile support -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="bookstrap-client-config" content="{&quot;onsiteVideoUrlRoot&quot;:&quot;http://10.0.0.10/&quot;}">
+
+    
+    <link rel="stylesheet" href="./Bookstrap-underbar_files/app.min.css">
+    
+
+    <link href="./Bookstrap-underbar_files/css" rel="stylesheet" type="text/css">
+
+  </head>
+  <body>
+    <div id="bookstrap" class="full-height ng-scope" fdn-off-canvas-wrap="" post-message=""><div class="off-canvas-wrap ng-isolate-scope"><div class="inner-wrap full-height" ng-transclude="">
+  <!-- uiView: left-drawer --><section ui-view="left-drawer" class="ng-scope"> <a fdn-off-canvas-toggle="" ng-click="chooseTab(&#39;getHelpTab&#39;)" ng-show="showGetHelpTab" class="get-help-tab help-tab ng-scope ng-hide" ng-class="{ outstanding: outstandingRequest.$open }">Get Help</a> <a fdn-off-canvas-toggle="" ng-show="showGiveHelpTab" ng-click="chooseTab(&#39;giveHelpTab&#39;)" class="give-help-tab help-tab ng-scope ng-hide">Give Help</a><div fdn-off-canvas-body="" class="ng-scope"><div class="left-off-canvas-menu" ng-transclude=""><div ng-show="showGetHelpPanel" style="padding: 10px" class="ng-scope ng-hide"><bs-help-request-menu ng-controller="studentHelpRequestMenuController" class="ng-scope"><section class="row"><h2 class="ng-binding">Help</h2><!-- ngInclude: 'help/templates/request-menu/outstanding-request.html' --><div ng-show="outstandingRequest.id" ng-include="&#39;help/templates/request-menu/outstanding-request.html&#39;" class="ng-scope ng-hide"><p class="text-center ng-scope">You have an outstanding request.</p><table class="ng-scope"><tbody><tr><th>Text:</th><td class="ng-binding">No text</td></tr><!-- ngIf: outstandingRequest.isRemote --><tr><th>Location:</th><td class="ng-binding">Unknown location</td></tr><tr><th>State:</th><td ng-switch="outstandingRequest.state"><!-- ngSwitchWhen: OPEN --> <!-- ngSwitchWhen: ASSIGN --></td></tr><tr><th>Filed At:</th><td class="ng-binding"></td></tr></tbody></table><p class="text-center ng-scope"><a class="button tiny alert" ng-click="cancelOutstandingRequest(outstandingRequest)">Cancel Request</a></p></div><div ng-form="form" ng-hide="outstandingRequest.id" ng-submit="submit()" class="ng-pristine ng-invalid ng-invalid-required"><!-- ngIf: !currentUser.isRemote && !currentUser.isCorporateStudent --><!-- ngInclude: 'help/templates/request-menu/floor.html' --><div ng-if="!currentUser.isRemote &amp;&amp; !currentUser.isCorporateStudent" ng-include="&#39;help/templates/request-menu/floor.html&#39;" class="ng-scope"><label class="ng-scope"><span class="small-caps">Your Floor</span><select name="floor" ng-model="pendingRequest.floor" ng-options="floor for floor in floors" required="" class="ng-pristine ng-invalid ng-invalid-required"><option value="" class="">Select a Floor</option><option value="0">6</option><option value="1">8</option></select><small ng-show="form.floor.$invalid &amp;&amp; form.floor.$dirty" class="error ng-hide">You must select a floor.</small></label></div><!-- end ngIf: !currentUser.isRemote && !currentUser.isCorporateStudent --><!-- ngIf: !currentUser.isRemote && !currentUser.isCorporateStudent --><!-- ngInclude: 'help/templates/request-menu/coordinates.html' --><div ng-if="!currentUser.isRemote &amp;&amp; !currentUser.isCorporateStudent" ng-include="&#39;help/templates/request-menu/coordinates.html&#39;" class="ng-scope"><label class="ng-scope"><span class="small-caps">Your location</span><div class="map-container"><img id="sidebar-request-map" ng-src="/images/floor_blank_small.png" ng-click="handleImageClick($event, pendingRequest)" src="./Bookstrap-underbar_files/floor_blank_small.png"><div><!-- ngIf: pendingRequest.xCoord && pendingRequest.yCoord --></div></div></label></div><!-- end ngIf: !currentUser.isRemote && !currentUser.isCorporateStudent --><!-- ngInclude: 'help/templates/request-menu/text.html' --><div ng-include="&#39;help/templates/request-menu/text.html&#39;" class="ng-scope"><label class="ng-scope"><span class="small-caps">Your question</span><div><textarea class="request-text ng-pristine ng-invalid ng-invalid-required ng-valid-maxlength" rows="4" name="text" ng-model="pendingRequest.text" placeholder="Add a clear and specific question here. (E.g. &quot;Backbone model events aren&#39;t bubbling up through to their collection.&quot;)" ng-maxlength="150" required="">    </textarea><small ng-show="form.text.$invalid &amp;&amp; !form.text.$pristine" class="error ng-hide"><span ng-show="form.text.$error.required" class="">Please add a question.</span> <span ng-show="form.text.$error.maxlength" class="ng-binding ng-hide">Your question is too long (-150 characters over).</span></small></div><label></label></label></div><!-- ngIf: currentUser.isRemote || currentUser.isCorporateStudent --><span class="right" ng-show="!createRequestError"><a class="button tiny alert cancel-button exit-off-canvas" ng-click="resetForm()">Cancel</a> <button class="tiny" ng-click="submit()" ng-disable="form.$dirty">Submit</button></span> <button class="button tiny alert ng-hide" ng-show="createRequestError" ng-click="createRequestError = !createRequestError">Try again. Ok?</button></div></section></bs-help-request-menu></div><div ng-show="showGiveHelpPanel" ng-class="{ &#39;headerRedAlertMode&#39;: helpState.redAlertRequests.length }" ng-controller="AgentPanelController" class="ng-scope ng-hide"><bs-agent-floor-selection><div class="row"><div class="medium-4 columns"><h1 class="help-main-text">Help</h1></div><div class="medium-7 columns"><div class="floor-select text-right">Where:<select ng-model="currentUser.floor" ng-change="updateCurrentUser();" class="ng-pristine ng-valid"><option value="-1">Remote</option><option value="6">6th floor</option><option value="8">8th floor</option></select></div><a class="button small right secondary" ng-class="{ false: &#39;secondary&#39; }[currentUser.activeInstructor]" ng-click="toggleActive();"><span ng-hide="currentUser.activeInstructor" class="">Go on the floor</span> <span ng-show="currentUser.activeInstructor" class="ng-hide">Go off the floor</span></a></div></div></bs-agent-floor-selection><bs-agent-help-request-menu><!-- ngIf: alreadyTaken --><!-- ngIf: currentUser.activeInstructor && !request && !helpState.redAlertRequests.length --><!-- ngIf: !currentUser.activeInstructor --><div ng-if="!currentUser.activeInstructor" class="text-center ng-scope"><p>You are not on the floor.</p></div><!-- end ngIf: !currentUser.activeInstructor --><!-- ngIf: request --><!-- ngRepeat: request in helpState.redAlertRequests --></bs-agent-help-request-menu></div></div></div></section>
+
+  <!-- uiView: header --><header class="container header ng-scope" ui-view="header"><div class="row ng-scope"><div class="small-8 columns"><h2 class="small ng-binding" ng-class="{ &#39;header-title&#39;: isMobile }"><a ui-sref="root.home" href="http://remote-bookstrap.hackreactor.com/"><i class="small-push-2 fa fa-home"></i></a>&nbsp;underbar</h2></div><div class="large-4 columns"><nav class="nav"><ul class="right inline-list"><li class="nav-item"><a dropdown-toggle="#header-nav-menu" class="ng-isolate-scope"><span class="username ng-binding">Mad Bernard</span> <i class="fa fa-caret-down"></i> &nbsp; <img class="avatar" ng-src="http://www.gravatar.com/avatar/08954342a77ec81da1ea21c738c288a8" src="./Bookstrap-underbar_files/08954342a77ec81da1ea21c738c288a8"></a><ul id="header-nav-menu" class="f-dropdown" style="display: none;"><li><a ui-sref="root.profile({ id: user.id })" href="http://remote-bookstrap.hackreactor.com/user/177"><i class="fa fa-user"></i> Profile</a></li><li><a ui-sref="root.attendance" href="http://remote-bookstrap.hackreactor.com/attendance"><i class="fa fa-users"></i> Attendance</a></li><li ng-show="user.isAdmin" class="ng-hide"><a ui-sref="root.admin" href="http://remote-bookstrap.hackreactor.com/admin"><i class="fa fa-cog"></i> Admin</a></li><li ng-show="user.isAdmin" class="ng-hide"><a ui-sref="root.page" href="http://remote-bookstrap.hackreactor.com/pages/"><i class="fa fa-file"></i> Page</a></li><li><a ui-sref="root.logout" target="_self" href="http://remote-bookstrap.hackreactor.com/auth/logout"><i class="fa fa-sign-out"></i> Log Out</a></li></ul><div ng-show="user.isStaffMember" class="ng-hide"><div ng-show="user.isOnFloor()" class="ng-binding ng-hide">Remote <span>(<span ng-class="{outstanding:currentFloorRequests.length}" class="ng-binding">0</span>)</span></div><div ng-show="!user.isOnFloor()" class="outstanding">Not on the floor</div></div></li><!-- ngIf: !user.isStaffMember --><li ng-if="!user.isStaffMember" class="ng-scope"><!-- ngIf: header.newAnnouncements < 1 --><a ng-if="header.newAnnouncements &lt; 1" ui-sref="root.home" class="ng-scope" href="http://remote-bookstrap.hackreactor.com/"><i class="fa fa-envelope-o"></i></a><!-- end ngIf: header.newAnnouncements < 1 --> <!-- ngIf: header.newAnnouncements > 0 --></li><!-- end ngIf: !user.isStaffMember --></ul></nav></div></div></header>
+
+  <!-- uiView: container --><section class="container main ng-scope" ui-view="container"><section class="row ng-scope"><div class="container readme-contents-curriculum"><!-- ngIf: loading --><!-- ngIf: !loading --><markdown ng-if="!loading" class="curriculum-content ng-scope ng-pristine ng-valid" ng-model="curriculum.content"><h1 id="underbar" class="ng-scope">Underbar</h1>
+<p class="ng-scope">This project was written in the same spirit as
+<a href="https://github.com/mrdavidlaing/javascript-koans">JavaScript Koans</a>, and thusly
+uses the <a href="http://visionmedia.github.io/mocha">Mocha Test Suite</a> to facilitate a
+TDD approach to learning. It walks you through a reimplementation of
+<a href="http://underscore.js/">underscore.js</a>, a popular collection of useful functions
+authored by Jeremy Ashkenas.</p>
+<h2 id="links-and-resources" class="ng-scope">Links and Resources</h2>
+<p class="ng-scope">Some quick notes that may come in handy:</p>
+<ul class="ng-scope">
+<li>As you work through these functions, you may sometimes have questions about
+what arguments they take, or about how they work (their <em>interface</em>). If the
+inline comments don't clarify these questions, it's a good idea to reference
+the official library's <a href="http://underscore.js/">documentation</a>.</li>
+<li>Many of the functions operate on "collections." They can take both arrays or
+objects as their arguments and you need to be able to handle both cases.<ul>
+<li>You can use <code>Array.isArray(obj)</code> to find out whether an object is an array.</li>
+<li>You can use <code>obj.length</code> to test if something is either a string or an
+array.</li>
+</ul>
+</li>
+<li>Javascript has a built-in <code>Math</code> object that provides some very useful
+functions. You can read up on them <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Math">here</a>.</li>
+<li>Within a function, you can use the <code>arguments</code> keyword to access all the
+parameters that were passed in--even if they aren't named in the function
+definition. This is useful if you don't know how many arguments are going to
+be passed in in advance.<ul>
+<li>You can count the arguments by using <code>arguments.length</code> and access each
+argument using <code>arguments[i]</code>.</li>
+<li>The <code>arguments</code> object is very similar to an array, but note that it does
+not support most array functions (such as <code>slice</code> or <code>push</code>). You can read
+more about this <a href="http://www.sitepoint.com/arguments-a-javascript-oddity/">here</a>.</li>
+</ul>
+</li>
+<li>If you have an array <code>myParameters</code> and would like to call a function
+<code>myFunction</code> using the elements in the array as parameters, you can use
+<code>myFunction.apply(context, myParameters)</code>. The first parameter, <code>context</code>, is
+the execution context for your function call. From inside <code>myFunction</code>, you
+can access it as <code>this</code>. For this exercise, you can just pass <code>null</code> for <code>context</code>.
+If you're curious, you can read more in the <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function/apply">documentation for apply</a>.</li>
+</ul>
+<h2 id="goals" class="ng-scope">Goals</h2>
+<p class="ng-scope">As is, the repository is missing code for most of the functions. It's your job
+to fix the library by implementing them. The functions are split in two sections,
+with a separate test suite for each.</p>
+<p class="ng-scope">The files in the <code>spec</code> directory contain the test suites. Your goal is to get all
+the tests to pass by implementing the missing functions. Run all the tests by
+opening <code>SpecRunner.html</code> in your browser.</p>
+<p class="ng-scope">The file <code>src/underbar.js</code> contains function definitions and explanations for
+the following functions (<em>italicized functions</em> are solved for you). Implement
+each of the functions by making all of the tests pass:</p>
+<h4 id="part-i-" class="ng-scope">Part I:</h4>
+<ul class="ng-scope">
+<li><input type="checkbox" class="readme-checkbox" name="task-1">identity</li>
+<li><input type="checkbox" class="readme-checkbox" name="task-2"><em>first</em></li>
+<li><input type="checkbox" class="readme-checkbox" name="task-3">last</li>
+<li><input type="checkbox" class="readme-checkbox" name="task-4">each</li>
+<li><input type="checkbox" class="readme-checkbox" name="task-5"><em>indexOf</em></li>
+<li><input type="checkbox" class="readme-checkbox" name="task-6">filter</li>
+<li><input type="checkbox" class="readme-checkbox" name="task-7">reject</li>
+<li><input type="checkbox" class="readme-checkbox" name="task-8">uniq</li>
+<li><input type="checkbox" class="readme-checkbox" name="task-9">map</li>
+<li><input type="checkbox" class="readme-checkbox" name="task-10"><em>pluck</em></li>
+<li><input type="checkbox" class="readme-checkbox" name="task-11">reduce</li>
+</ul>
+<h4 id="part-ii-" class="ng-scope">Part II:</h4>
+<ul class="ng-scope">
+<li><input type="checkbox" class="readme-checkbox" name="task-12"><em>contains</em></li>
+<li><input type="checkbox" class="readme-checkbox" name="task-13">every</li>
+<li><input type="checkbox" class="readme-checkbox" name="task-14">some</li>
+<li><input type="checkbox" class="readme-checkbox" name="task-15">extend</li>
+<li><input type="checkbox" class="readme-checkbox" name="task-16">defaults</li>
+<li><input type="checkbox" class="readme-checkbox" name="task-17"><em>once</em></li>
+<li><input type="checkbox" class="readme-checkbox" name="task-18">memoize</li>
+<li><input type="checkbox" class="readme-checkbox" name="task-19">delay</li>
+<li><input type="checkbox" class="readme-checkbox" name="task-20">shuffle</li>
+</ul>
+<h4 id="extra-credit-" class="ng-scope">Extra Credit:</h4>
+<ul class="ng-scope">
+<li><input type="checkbox" class="readme-checkbox" name="task-21">invoke</li>
+<li><input type="checkbox" class="readme-checkbox" name="task-22">sortBy</li>
+<li><input type="checkbox" class="readme-checkbox" name="task-23">zip</li>
+<li><input type="checkbox" class="readme-checkbox" name="task-24">flatten</li>
+<li><input type="checkbox" class="readme-checkbox" name="task-25">intersection</li>
+<li><input type="checkbox" class="readme-checkbox" name="task-26">difference</li>
+<li><input type="checkbox" class="readme-checkbox" name="task-27">throttle</li>
+</ul>
+<p class="ng-scope"><strong>Note:</strong> Some browsers provide built-in functions--including <code>forEach</code>, <code>map</code>,
+<code>reduce</code> and <code>filter</code>--that replicate the functionality of some of the functions
+you will implement. Don't use them to implement your functions.</p>
+<h3 id="throttle" class="ng-scope">Throttle</h3>
+<p class="ng-scope">There's one function that is a little more complicated, so we've included some
+more context to help you along.</p>
+<p class="ng-scope"><strong>_.throttle(func, wait)</strong>: Wrap a function <code>func</code> so that it can be called at
+most once within a period of <code>wait</code> milliseconds. This is useful for throttling
+access to expensive APIs or to drawing routines in a video game. Let's see how
+it's used:</p>
+<pre class="ng-scope"><code class="lang-javascript"><span class="keyword">var</span> counter = <span class="number">0</span>;
+<span class="keyword">var</span> increment = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+  <span class="keyword">return</span> counter += <span class="number">1</span>;
+};
+
+<span class="comment">// Create a function called throttledIncrement. This function can be called at</span>
+<span class="comment">// most once every 100ms</span>
+<span class="keyword">var</span> throttledIncrement = _.throttle(increment, <span class="number">100</span>);
+
+throttledIncrement(); <span class="comment">// return 1; `counter` should now be 1</span>
+throttledIncrement(); <span class="comment">// return 1; schedule `increment()` call in 100ms</span>
+throttledIncrement(); <span class="comment">// return 1; should do nothing</span>
+
+<span class="comment">// Wait 100 ms; `increment` is called</span>
+</code></pre>
+<ul class="ng-scope">
+<li>Arguments passed to the throttled function should be passed to the original
+function.</li>
+<li>The throttled function should always return the most recently returned value of
+the original function.</li>
+<li>If the wait period is 100ms and the function was last called 30ms ago,
+another call to the throttled function should schedule a call for 0ms after the wait period is over.</li>
+</ul>
+<h2 id="extra-extra-credit" class="ng-scope">Extra Extra Credit</h2>
+<ul class="ng-scope">
+<li>Download the real <a href="https://github.com/documentcloud/underscore/">underscore.js</a>
+implementation and test suite, and try to understand how it works. A great way
+to do this is to break parts of the code and see which tests fail.</li>
+<li>Compare your implementations to the ones in the real library. Notice that this
+assignment has stripped out some complexity from the original library; notice
+where these changes have been made, and try to understand what edge cases the
+original library is handling that your functions aren't.</li>
+<li>Notice that the real underscore.js uses an object named <code>breaker</code>. Look through the
+source and understand what this is doing, and how it optimizes some of the functions.</li>
+</ul>
+</markdown><!-- end ngIf: !loading --></div></section></section>
+</div></div></div>
+
+
+<script src="./Bookstrap-underbar_files/build.min.js"></script>
+
+
+  
+
+</body></html>
