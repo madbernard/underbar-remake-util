@@ -50,11 +50,11 @@
   _.each = function(collection, iterator) {
     if (Array.isArray(collection)) {
       for (var i = 0; i < collection.length; i++) {
-        iterator(collection[i]);
+        iterator(collection[i], i, collection);
       }
     } else {
-      for (var keys in collection) {
-        iterator(collection[keys]);
+      for (var key in collection) {
+        iterator(collection[key], key, collection);
       }
     }
   };
@@ -78,6 +78,14 @@
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
+    var returnArray = [];
+
+    _.each(collection, function(item) {
+      if (test(item)) {
+        returnArray.push(item);
+      }
+    });
+    return returnArray;
   };
 
   // Return all elements of an array that don't pass a truth test.
