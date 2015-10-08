@@ -201,7 +201,13 @@
       }, true);
     }
     return _.reduce(collection, function(accumulator, item) {
-        return accumulator === iterator(item);
+        var castToBoolean;
+        if (iterator(item)) {
+          castToBoolean = true;
+        } else {
+          castToBoolean = false;
+        }
+        return accumulator === castToBoolean;
     }, true);
   };
 
