@@ -80,6 +80,7 @@
 
       it('should pass for a collection containing mixed falsy and truthy results', function() {
         expect(_.some([true, false, 1], _.identity)).to.be.true;
+        expect(_.some([false, 1, 0], _.identity)).to.be.true;
       });
 
       it('should pass for a set containing one truthy value that is a string', function() {
