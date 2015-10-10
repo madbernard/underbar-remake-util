@@ -92,11 +92,9 @@
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
-    var yesArray = _.filter(collection, test);
-    var rejectArray = _.filter(collection, function(eachItem){
-      return _.indexOf(yesArray, eachItem) === -1;
+    return _.filter(collection, function(thing){
+      return !test(thing);
     });
-    return rejectArray;
   };
 
   // Produce a duplicate-free version of the array.
@@ -117,15 +115,9 @@
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
     var mapped = [];
-    if (Array.isArray(collection)) {
-      for (var i = 0; i < collection.length; i++) {
-        mapped.push(iterator(collection[i], i, collection));
-      }
-    } else {
-      for (var key in collection) {
-        mapped.push(iterator(collection[key], key, collection));
-      }
-    }
+    _.each(collection, function(thing){
+      mapped.push(iterator(thing));
+    });
     return mapped;
   };
 
@@ -212,9 +204,7 @@
     }
     return !_.every(collection, function(thing){
       return !iterator(thing);
-    })/*)
-      {return false;}
-    else {return true;}*/
+    })
   };
 
 
