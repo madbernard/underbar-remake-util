@@ -196,18 +196,10 @@
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
     if (iterator === undefined) {
-      return _.reduce(collection, function(accumulator, item) {
-        return accumulator === item;
-      }, true);
+      iterator = _.identity;
     }
     return _.reduce(collection, function(accumulator, item) {
-        var castToBoolean;
-        if (iterator(item)) {
-          castToBoolean = true;
-        } else {
-          castToBoolean = false;
-        }
-        return accumulator === castToBoolean;
+      return accumulator && !!iterator(item);
     }, true);
   };
 
@@ -218,12 +210,11 @@
     if (iterator === undefined) {
       iterator = _.identity;
     }
-    if (_.every(collection, iterator))
-      {return true;}
-    else if (_.every(collection, !iterator))
+    return !_.every(collection, function(thing){
+      return !iterator(thing);
+    })/*)
       {return false;}
-    else {return true;}
-  //  return !_.every(collection, iterator);
+    else {return true;}*/
   };
 
 

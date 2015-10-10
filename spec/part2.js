@@ -31,6 +31,7 @@
 
       it('fails for a collection of all-falsy results', function() {
         expect(_.every([null, 0, undefined], _.identity)).to.be.false;
+        expect(_.every([false, false], _.identity)).to.be.false;
       });
 
       it('fails for a collection containing mixed falsy and truthy results', function() {
