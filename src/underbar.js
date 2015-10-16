@@ -290,16 +290,37 @@
   // _.memoize should return a function that, when called, will check if it has
   // already computed the result for the given argument and return that value
   // instead if possible.
+  var equalArray = function(array1, array2){
+    if (array1.length !== array2.length) {return false;}
+    for (var i = 0; i < array1.length; i++) {
+      if (array1[i] !== array2[i]) {return false;}
+    }
+    return true;
+  };
+
+  // Returns the first element of the array for which the pass function returns 
+  // true, or if nothing passes, it returns null
+  _.yesFirst = function(array, test) {
+    var first = null;
+    _.each(array, function(item) {
+      if (test(item)) {
+        first = array[0];
+      }
+    });
+    return first;
+  };
+
   var thisAgain = [];
   _.memoize = function(func) {
     var result;
+    var yesMatch = _.yesFirst(thisAgain, equalArray(thisAgain, arguments));
     return function() {
-      if (_.contains(thisAgain, arguments)) {
+      if (yesMatch) {
         result = thisAgain[_.indexOf(thisAgain, arguments) + 1];
       }
       else {
         result = func.apply(this, arguments);
-        _.extend(thisAgain, arguments, result);
+        thisAgain.push(arguments, result);
       }
       return result;
     };
