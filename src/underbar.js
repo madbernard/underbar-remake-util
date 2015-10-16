@@ -290,7 +290,19 @@
   // _.memoize should return a function that, when called, will check if it has
   // already computed the result for the given argument and return that value
   // instead if possible.
+  var thisAgain = [];
   _.memoize = function(func) {
+    var result;
+    return function() {
+      if (_.contains(thisAgain, arguments)) {
+        result = thisAgain[_.indexOf(thisAgain, arguments) + 1];
+      }
+      else {
+        result = func.apply(this, arguments);
+        _.extend(thisAgain, arguments, result);
+      }
+      return result;
+    };
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -314,6 +326,22 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    var randomizedArray = [];
+    var pushIt = function(){
+      var toBePushed = array[Math.floor(Math.random * array.length)];
+      if (randomizedArray.length === array.length) {
+        return randomizedArray;
+      }
+      if (_.contains(randomizedArray, toBePushed)) {
+        pushIt();
+      }
+      else {
+        randomizedArray.push(toBePushed);
+        pushIt();
+      }
+    };
+    pushIt();
+    return randomizedArray;
   };
 
 
