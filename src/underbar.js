@@ -326,22 +326,14 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
-    var randomizedArray = [];
-    var pushIt = function(){
-      var toBePushed = array[Math.floor(Math.random * array.length)];
-      if (randomizedArray.length === array.length) {
-        return randomizedArray;
-      }
-      if (_.contains(randomizedArray, toBePushed)) {
-        pushIt();
-      }
-      else {
-        randomizedArray.push(toBePushed);
-        pushIt();
-      }
-    };
-    pushIt();
-    return randomizedArray;
+    var mixed = Array.prototype.slice.call(array);
+    _.each(mixed, function(thing, spot){
+      var randKey = Math.floor(Math.random() * mixed.length);
+      var holder = mixed[randKey];
+      mixed[randKey] = mixed[spot];
+      mixed[spot] = holder;
+    });
+    return mixed;
   };
 
 
