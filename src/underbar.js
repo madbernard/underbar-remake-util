@@ -298,29 +298,23 @@
     return true;
   };
 
-  // Returns the first element of the array for which the pass function returns 
-  // true, or if nothing passes, it returns null
-  _.yesFirst = function(array, test) {
-    var first = null;
-    _.each(array, function(item) {
-      if (test(item)) {
-        first = array[0];
-      }
-    });
-    return first;
-  };
-
+  // thisAgain is an array that holds objects
   var thisAgain = [];
+
   _.memoize = function(func) {
     var result;
-    var yesMatch = _.yesFirst(thisAgain, equalArray(thisAgain, arguments));
     return function() {
-      if (yesMatch) {
-        result = thisAgain[_.indexOf(thisAgain, arguments) + 1];
+      var args = Array.prototype.slice.call(arguments);
+      var arrayOfMatchingObjects = _.filter(thisAgain, function(subarray) {
+        return equalArray(subarray.args, args);
+      });
+      var argsMatch = arrayOfMatchingObjects[0];
+      if (argsMatch) {
+        result = argsMatch.result;
       }
       else {
         result = func.apply(this, arguments);
-        thisAgain.push(arguments, result);
+        thisAgain.push({result: result, args: args});
       }
       return result;
     };
